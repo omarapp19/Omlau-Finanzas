@@ -23,13 +23,14 @@ function App() {
     setCurrentView('login');
   };
 
-  const addUser = (name: string, pin: string, avatar: string) => {
+  const addUser = (name: string, pin: string, avatar: string, salary?: User['salary']) => {
     const newUser: User = {
       id: Date.now().toString(),
       name,
       avatar,
       role: 'Admin', // Default role
-      pin
+      pin,
+      salary
     };
     setUsers([...users, newUser]);
   };

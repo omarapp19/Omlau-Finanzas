@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { User } from '../types';
+import { CreateProfileModal } from './modals/CreateProfileModal';
 
-export const Configuration: React.FC = () => {
+interface ConfigurationProps {
+    users: User[];
+    addUser: (name: string, pin: string, avatar: string, salary?: User['salary']) => void;
+}
+
+export const Configuration: React.FC<ConfigurationProps> = ({ users, addUser }) => {
+    const [isCreating, setIsCreating] = useState(false);
+
+    const handleCreateUser = (name: string, pin: string, avatar: string, salary?: User['salary']) => {
+        addUser(name, pin, avatar, salary);
+        setIsCreating(false);
+    };
     return (
         <div className="flex-1 w-full max-w-[1200px] mx-auto p-4 md:p-8 lg:p-12 overflow-y-auto">
             <div className="mb-10 text-center md:text-left">
@@ -93,10 +106,22 @@ export const Configuration: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="block text-xs font-medium text-slate-500 dark:text-slate-400">Monto Mensual Neto: $0</label>
+                                        <label className="block text-xs font-medium text-slate-500 dark:text-slate-400">
+                                            {user.salary ? `Monto ${user.salary.frequency}: $${user.salary.amount}` : 'Configuración Pendiente'}
+                                        </label>
                                         <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                                            <div className="h-full bg-primary rounded-full w-[10%]"></div>
+                                            <div
+                                                className="h-full bg-primary rounded-full transition-all"
+                                                style={{ width: user.salary ? '100%' : '10%' }}
+                                            ></div>
                                         </div>
+                                        {user.salary && (
+                                            <div className="flex gap-2 text-[10px] text-slate-500">
+                                                <span className="bg-slate-100 dark:bg-slate-700 px-2 py-1 rounded">
+                                                    Día: {user.salary.paymentDay}
+                                                </span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
@@ -115,6 +140,13 @@ export const Configuration: React.FC = () => {
                     </section>
                 </div>
             </div>
+            {/* Create Profile Modal */}
+            {isCreating && (
+                <CreateProfileModal
+                    onClose={() => setIsCreating(false)}
+                    onCreate={handleCreateUser}
+                />
+            )}
         </div>
     );
 };

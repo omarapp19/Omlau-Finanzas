@@ -1,38 +1,47 @@
 import React, { useState } from 'react';
 import { User } from '../types';
+import { CreateProfileModal } from './modals/CreateProfileModal';
 
 interface LoginProps {
     onLogin: (user: User) => void;
     users: User[];
-    addUser: (name: string, avatar: string) => void;
+    addUser: (name: string, pin: string, avatar: string, salary?: User['salary']) => void;
 }
 
 export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [pin, setPin] = useState('');
+    const [error, setError] = useState('');
     const [isCreating, setIsCreating] = useState(false);
-    const [newUserName, setNewUserName] = useState('');
 
     const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (value.length <= 4) setPin(value);
         if (value.length === 4 && selectedUser) {
-            setTimeout(() => onLogin(selectedUser), 500);
+            // Check if user has PIN
+            if (selectedUser.pin && value === selectedUser.pin) {
+                setTimeout(() => onLogin(selectedUser), 500);
+            } else if (!selectedUser.pin) {
+                // If no PIN set, allow login (or maybe prompt to set one? adhering to logic: PIN optional)
+                setTimeout(() => onLogin(selectedUser), 500);
+            } else {
+                setError('PIN Incorrecto');
+            }
         }
     };
 
-    const handleCreateUser = () => {
-        if (newUserName.trim()) {
-            // Random avatar or default
-            const avatars = [
-                "https://lh3.googleusercontent.com/aida-public/AB6AXuBM3hW0bqrpkyASVNsuhMYPfHIRyCmFuwybK6XGcaF2z3TpVaNCqdjWWnkgk7ASPawV5s5kGUhtTc4UExyT_U04VqWVs7loGbnnM_nNKWNUovXgpt8NaKTWQwPIobAWHmC9watbwHfa7deN-ciLwv2vC83WnwBvXCZXAPVMqakvnTKocOqqTvKvW2JRjLF-Dazo7twvZ1CIvrhrl8JC1dUoS6yZR-AA-_klKDBAKEDvJ0EyBQw-8MdxaYtvaIZZ_zLfefkHWmUV3H8",
-                "https://lh3.googleusercontent.com/aida-public/AB6AXuAP0EFaMajfKSZ6w54Hs5XHRpDunAUd35aYZP0XO3JVv90a_ErdETFhQ2u4U7E90HZejTZvZI71AAGYTuWEY6zmTnIbcBuM25jTWVxaHdCbb4Kql7Owh_mDNeZfS2w3eOBB3qMaVchCKZtRXH0-8QNlZj8NaT8pCqKVjYXZJzrtYcoUDawhMv6KYookyvyiaHwo2KiTZVYU2XlOuXBoJb6oGDLn4mpesFJIZrlxWrxcu8XfCB55oblxv_wK0GYxC8pe4z_m7K7mcso"
-            ];
-            const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
-            addUser(newUserName, randomAvatar);
-            setIsCreating(false);
-            setNewUserName('');
+    // Allow login without PIN if user has no PIN
+    const handleUserSelect = (user: User) => {
+        if (!user.pin) {
+            onLogin(user);
+        } else {
+            setSelectedUser(user);
         }
+    };
+
+    const handleCreateUser = (name: string, pin: string, avatar: string, salary?: User['salary']) => {
+        addUser(name, pin, avatar, salary);
+        setIsCreating(false);
     };
 
     return (
@@ -54,7 +63,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
                     {users.map(user => (
                         <button
                             key={user.id}
-                            onClick={() => setSelectedUser(user)}
+                            onClick={() => handleUserSelect(user)}
                             className="group relative flex flex-col items-center gap-6 outline-none focus:outline-none"
                         >
                             <div className="relative">
@@ -115,37 +124,10 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
 
             {/* Create Profile Modal */}
             {isCreating && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background-light/60 dark:bg-background-dark/80 backdrop-blur-sm px-4">
-                    <div className="relative flex w-full max-w-[380px] flex-col items-center rounded-3xl bg-white dark:bg-surface-dark p-8 shadow-2xl ring-1 ring-slate-900/5 dark:ring-white/10">
-                        <button
-                            onClick={() => setIsCreating(false)}
-                            className="absolute right-6 top-6 rounded-full p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 transition-colors"
-                        >
-                            <span className="material-symbols-outlined text-xl">close</span>
-                        </button>
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Nuevo Perfil</h2>
-                        <div className="w-full space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nombre</label>
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    value={newUserName}
-                                    onChange={(e) => setNewUserName(e.target.value)}
-                                    placeholder="Ej. Ana"
-                                    className="block w-full rounded-xl border border-slate-300 bg-white p-3 text-slate-900 focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 outline-none transition-all"
-                                />
-                            </div>
-                            <button
-                                onClick={handleCreateUser}
-                                disabled={!newUserName.trim()}
-                                className="w-full py-3 px-4 bg-primary hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-500/20"
-                            >
-                                Crear Perfil
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <CreateProfileModal
+                    onClose={() => setIsCreating(false)}
+                    onCreate={handleCreateUser}
+                />
             )}
         </div>
     );
