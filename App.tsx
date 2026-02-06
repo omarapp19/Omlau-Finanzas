@@ -6,13 +6,36 @@ import { Transactions } from './components/Transactions';
 import { Configuration } from './components/Configuration';
 import { Chat } from './components/Chat';
 import { Login } from './components/Login';
-import { View } from './types';
+import { View, User } from './types';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('login');
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  const handleLogin = (user: User) => {
+    setCurrentUser(user);
+    setCurrentView('dashboard');
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setCurrentView('login');
+  };
+
+  const addUser = (name: string, pin: string, avatar: string) => {
+    const newUser: User = {
+      id: Date.now().toString(),
+      name,
+      avatar,
+      role: 'Admin', // Default role
+      pin
+    };
+    setUsers([...users, newUser]);
+  };
 
   if (currentView === 'login') {
-    return <Login onLogin={() => setCurrentView('dashboard')} />;
+    return <Login onLogin={handleLogin} users={users} addUser={addUser} />;
   }
 
   const renderContent = () => {
@@ -24,7 +47,7 @@ function App() {
       case 'transactions':
         return <Transactions />;
       case 'config':
-        return <Configuration />;
+        return <Configuration users={users} addUser={addUser} />;
       case 'chat':
         return <Chat />;
       default:
@@ -34,7 +57,7 @@ function App() {
 
   return (
     <div className="flex h-screen w-full bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
-      <Sidebar currentView={currentView} setView={setCurrentView} />
+      <Sidebar currentView={currentView} setView={setCurrentView} onLogout={handleLogout} user={currentUser} />
       <main className="flex-1 h-full w-full overflow-hidden flex flex-col">
         {renderContent()}
       </main>
