@@ -33,12 +33,12 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({ onClose,
                     <span className="material-symbols-outlined text-xl">close</span>
                 </button>
 
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">New Profile</h2>
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Nuevo Perfil</h2>
 
                 <div className="w-full space-y-6">
                     {/* Avatar Selection */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Choose Avatar</label>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Elige un Avatar</label>
                         <div className="flex justify-center gap-4">
                             {AVATARS.map((avatar, idx) => (
                                 <button
@@ -54,20 +54,20 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({ onClose,
 
                     {/* Name Input */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Name</label>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nombre</label>
                         <input
                             autoFocus
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="e.g. Alex"
+                            placeholder="Ej. Ana"
                             className="block w-full rounded-xl border border-slate-300 bg-white p-3 text-slate-900 focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 outline-none transition-all"
                         />
                     </div>
 
                     {/* PIN Input */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Set PIN (4 digits)</label>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Crear PIN (4 dígitos)</label>
                         <input
                             type="password"
                             maxLength={4}
@@ -85,7 +85,7 @@ export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({ onClose,
                         disabled={!name.trim() || pin.length !== 4}
                         className="w-full py-3 px-4 bg-primary hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-500/20"
                     >
-                        Create Profile
+                        Crear Perfil
                     </button>
                 </div>
             </div>

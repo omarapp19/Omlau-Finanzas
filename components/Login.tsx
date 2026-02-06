@@ -43,7 +43,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
             <div className="relative z-0 flex flex-col items-center justify-center flex-1 w-full px-6">
                 <div className="mb-12 text-center">
                     <h1 className="text-3xl md:text-5xl font-light tracking-tight text-slate-900 dark:text-white mb-3">
-                        ¿Quién está administrando hoy?
+                        ¿Quién está gestionando hoy?
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 text-lg font-light">
                         Selecciona tu perfil para acceder al panel
@@ -84,7 +84,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-background-light/60 dark:bg-background-dark/80 backdrop-blur-sm px-4">
                     <div className="relative flex w-full max-w-[380px] flex-col items-center rounded-3xl bg-white dark:bg-surface-dark p-8 shadow-2xl ring-1 ring-slate-900/5 dark:ring-white/10">
                         <button
-                            onClick={() => { setSelectedUser(null); setPin(''); }}
+                            onClick={() => { setSelectedUser(null); setPin(''); setError(''); }}
                             className="absolute right-6 top-6 rounded-full p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-600 transition-colors"
                         >
                             <span className="material-symbols-outlined text-xl">close</span>
@@ -94,7 +94,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
                         </div>
                         <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-1">Bienvenida, {selectedUser.name}</h2>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">Introduce tu PIN de 4 dígitos</p>
-                        <div className="w-full flex justify-center mb-6">
+                        <div className="w-full flex justify-center mb-4">
                             <input
                                 autoFocus
                                 type="password"
@@ -102,9 +102,10 @@ export const Login: React.FC<LoginProps> = ({ onLogin, users, addUser }) => {
                                 value={pin}
                                 onChange={handlePinChange}
                                 placeholder="••••"
-                                className="block w-full max-w-[240px] rounded-2xl border border-slate-200 bg-white py-4 px-4 text-center text-3xl font-medium text-slate-800 shadow-sm placeholder:text-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-700 transition-all outline-none tracking-[0.5em]"
+                                className={`block w-full max-w-[240px] rounded-2xl border ${error ? 'border-red-500' : 'border-slate-200'} bg-white py-4 px-4 text-center text-3xl font-medium text-slate-800 shadow-sm placeholder:text-slate-200 focus:border-primary focus:ring-4 focus:ring-primary/10 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-700 transition-all outline-none tracking-[0.5em]`}
                             />
                         </div>
+                        {error && <p className="text-red-500 text-sm mb-4">PIN Incorrecto</p>}
                         <button className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
                             ¿Olvidaste tu PIN?
                         </button>

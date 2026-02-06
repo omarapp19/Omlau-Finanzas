@@ -11,8 +11,8 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout, user }) => {
   const menuItems: { id: View; label: string; icon: string }[] = [
     { id: 'dashboard', label: 'Tablero', icon: 'dashboard' },
-    { id: 'transactions', label: 'Transacciones', icon: 'receipt_long' }, // Mapped to Historial/Transacciones
-    { id: 'metrics', label: 'Métricas', icon: 'pie_chart' }, // Mapped to Budgets/Metas
+    { id: 'transactions', label: 'Transacciones', icon: 'receipt_long' },
+    { id: 'metrics', label: 'Métricas', icon: 'pie_chart' },
     { id: 'config', label: 'Configuración', icon: 'settings' },
     { id: 'chat', label: 'Asistente IA', icon: 'smart_toy' },
   ];
@@ -38,8 +38,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, setView, onLogout
               key={item.id}
               onClick={() => setView(item.id)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors group w-full text-left ${isActive
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-primary/10 text-primary'
+                : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
             >
               <span className={`material-symbols-outlined text-[24px] ${isActive ? 'filled' : ''}`}>{item.icon}</span>
