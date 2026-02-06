@@ -1,0 +1,5 @@
+{
+  "name": "CoupleFi",
+  "description": "A shared finance tracker for couples featuring dashboards, transaction history, budgeting tools, and an AI-powered financial assistant named Zen.",
+  "requestFramePermissions": []
+}
