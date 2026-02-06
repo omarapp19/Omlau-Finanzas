@@ -7,9 +7,9 @@ interface CreateProfileModalProps {
 }
 
 const AVATARS = [
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAFxu755sMxzr9MEkNuYMy6nAIlWBEFO6IWfaxKnfxyeI2lPnofKWDyLzhnMdtAzXmIojwm4dSSr_cnrKNopFjadGlnk3jp9PBSW1iZvcWJkSf9ybf3YB9nduXmexNuk_o362UjYT0obNcIHYa3_kY499QFi30_kvza13LshQRDinFOt4TrVNE5-7esYaFo-BpnL8kssiI-m3_Izw0nEDepK110zVkLeRtSXmuB7y6NjhFJx0A292XlYmO7R3Nd1MoHEneorP0_5oY",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBM3hW0bqrpkyASVNsuhMYPfHIRyCmFuwybK6XGcaF2z3TpVaNCqdjWWnkgk7ASPawV5s5kGUhtTc4UExyT_U04VqWVs7loGbnnM_nNKWNUovXgpt8NaKTWQwPIobAWHmC9watbwHfa7deN-ciLwv2vC83WnwBvXCZXAPVMqakvnTKocOqqTvKvW2JRjLF-Dazo7twvZ1CIvrhrl8JC1dUoS6yZR-AA-_klKDBAKEDvJ0EyBQw-8MdxaYtvaIZZ_zLfefkHW3H8",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAP0EFaMajfKSZ6w54Hs5XHRpDunAUd35aYZP0XO3JVv90a_ErdETFhQ2u4U7E90HZejTZvZI71AAGYTuWEY6zmTnIbcBuM25jTWVxaHdCbb4Kql7Owh_mDNeZfS2w3eOBB3qMaVchCKZtRXH0-8QNlZj8NaT8pCqKVjYXZJzrtYcoUDawMv6KYookyvyiaHwo2KiTZVYU2XlOuXBoJb6oGDLn4mpesFJIZrlxWrXcu8XfCB55oblxv_wK0GYxC8pe4z_m7K7mcso"
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Zack"
 ];
 
 export const CreateProfileModal: React.FC<CreateProfileModalProps> = ({ onClose, onCreate }) => {
